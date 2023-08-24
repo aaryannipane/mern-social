@@ -39,18 +39,15 @@ app.use(helmet());
 // morgan for logger
 app.use(morgan("common"));
 
-const storage = multer.diskStorage({
-  destination: (req, file, cb)=>{
-    cb(null, "public/images")
-  },
-  filename: (req, file, cb)=>{
-    cb(null, req.body.name)
-  }
-})
+// saves image to memory temporary
+const storage = multer.memoryStorage()
 
 const upload = multer({storage:storage})
 app.post("/api/upload", upload.single("file"), (req, res)=>{
   try {
+    console.log(req.file);
+    // upload file to cloudinary
+    // save public url to database
     return res.status(200).json("file uploaded success")
   } catch (error) {
     console.log(error);
