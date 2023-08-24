@@ -1,0 +1,11 @@
+
+backend:
+- user auth
+- post create, update, delete
+- post like logic
+- user timeline
+
+frontend:
+- context API 
+- feed post states for likes 
+- sockets logic on chat application
