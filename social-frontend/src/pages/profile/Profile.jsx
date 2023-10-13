@@ -17,7 +17,6 @@ export const Profile = () => {
     const fetchUser = async () => {
       const res = await axios.get(`/users?username=${username}`);
       setUser(res.data);
-      console.log(res.data);
     };
 
     fetchUser();
@@ -38,7 +37,7 @@ export const Profile = () => {
               />
               <img
                 className="profileUserImg"
-                src={PF+user.profilePicture || PF + "person/noAvatar.png"}
+                src={user.profilePicture? PF+user.profilePicture : PF + "person/noAvatar.png"}
                 alt=""
               />
             </div>

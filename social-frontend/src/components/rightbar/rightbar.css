@@ -56,8 +56,9 @@
 
 .rightBarFollowings{
     display: grid;
-    grid-template-columns: auto auto auto;
-    gap: 5;
+    /* grid-template-columns: auto auto auto; */
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 10;
 }
 
 .rightBarFollowing{
@@ -65,11 +66,12 @@
     flex-direction: column;
     margin-bottom: 20px;
     cursor: pointer;
+    width: 100px;
 }
 
 .rightBarFollowingImg{
-    width: 100px;
-    height: 100px;
+    width: 100%;
+    aspect-ratio: 1/1;
     object-fit: cover;
     /* border-radius: 50%; */
 }

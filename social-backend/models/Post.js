@@ -7,7 +7,10 @@ const PostSchema = new mongoose.Schema(
       required: true,
     },
     desc: { type: String, max: 500 },
-    image: { type: String },
+    image: {
+      id: { type: String, required: true },
+      secure_url: { type: String, required: true },
+    },
     likes: { type: Array, default: [] },
   },
   {

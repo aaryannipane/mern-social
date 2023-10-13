@@ -1,4 +1,11 @@
-import { Cancel, EmojiEmotions, Label, PermMedia, Room } from "@mui/icons-material";
+import {
+  AutorenewOutlined,
+  Cancel,
+  EmojiEmotions,
+  Label,
+  PermMedia,
+  Room,
+} from "@mui/icons-material";
 import React, { useContext, useRef, useState } from "react";
 import "./share.css";
 import { AuthContext } from "../../context/AuthContext";
@@ -6,11 +13,11 @@ import axios from "axios";
 
 export const Share = () => {
   const { user } = useContext(AuthContext);
+  const [isUploading, setIsUploading] = useState(false);
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
 
   const desc = useRef();
   const [file, setFile] = useState(null);
-
 
   const submitHandler = async (e) => {
     e.preventDefault();
@@ -19,34 +26,40 @@ export const Share = () => {
       desc: desc.current.value,
     };
 
+    if (!desc.current.value) {
+      console.log("please add description");
+      return;
+    }
+
     if (file) {
       const data = new FormData();
 
       const fileName =
-        Date.now() + "-" + Math.round(Math.random() * 1e9)+ "-" + file.name;
+        Date.now() + "-" + Math.round(Math.random() * 1e9) + "-" + file.name;
 
-      data.append("name", fileName);
-      data.append("file", file);
       newPost.image = fileName;
+      data.append("name", fileName);
+      data.append("userId", user._id);
+      data.append("desc", desc.current.value);
+      data.append("file", file);
       try {
-        axios.post("/upload", data);
-        console.log(file);
+        setIsUploading(true);
+        const res = await axios.post("/upload", data);
+        setIsUploading(false);
         window.location.reload();
       } catch (error) {
         console.log(error);
       }
+    } else {
+      console.log("please upload image");
     }
-
-    try {
-      axios.post("/posts", newPost);
-    } catch (e) {}
   };
 
   return (
     <div className="share">
       <div className="shareWrapper">
         <div className="shareTop">
-          <img className="shareProfileImg" src={PF + user.profilePicture} />
+          <img className="shareProfileImg" src={user.profilePicture? PF + user.profilePicture : PF + "person/noAvatar.png"} />
           <input
             placeholder={`What's in your mind ${user.username}?`}
             className="shareInput"
@@ -56,8 +69,16 @@ export const Share = () => {
         <hr className="shareHr" />
         {file && (
           <div className="shareImgContainer">
+            {isUploading ? (
+              <div className="loader">
+                <AutorenewOutlined
+                  style={{ fontSize: 150 }}
+                  className="loading-icon"
+                ></AutorenewOutlined>
+              </div>
+            ) : undefined}
             <img src={URL.createObjectURL(file)} alt="" className="shareImg" />
-            <Cancel className="shareCancelImg" onClick={()=> setFile(null)}/>
+            <Cancel className="shareCancelImg" onClick={() => setFile(null)} />
           </div>
         )}
         <form className="shareBottom" onSubmit={submitHandler}>
@@ -84,11 +105,27 @@ export const Share = () => {
               <span className="shareOptionText">Location</span>
             </div>
             <div className="shareOption disabled" title="comming soon">
-              <EmojiEmotions htmlColor="goldenrod disabled" className="shareIcon" />
+              <EmojiEmotions
+                htmlColor="goldenrod disabled"
+                className="shareIcon"
+              />
               <span className="shareOptionText">Feeling</span>
             </div>
           </div>
-          <button className="shareButton" type="submit">
+          <button
+            className="shareButton"
+            style={
+              !file || !desc.current?.value || desc.current?.value == ""
+                ? { cursor: "not-allowed" }
+                : {}
+            }
+            type="submit"
+            disabled={
+              !file || !desc.current?.value || desc.current?.value == ""
+                ? true
+                : false
+            }
+          >
             Share
           </button>
         </form>

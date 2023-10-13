@@ -53,6 +53,7 @@
     align-items: center;
     justify-content: space-around;
     color: white;
+    position: relative;
 }
 
 .topbarLink{
@@ -86,10 +87,56 @@
     font-size: 12px;
 }
 
-.topbarImg{
+/* .imageOptionsContainer{
+    position: relative;
+} */
+
+.topbarImgContainer{
     width: 32px;
     height: 32px;
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+/* .topbarImgContainer:focus ~ .topbarProfileOptions,
+.topbarProfileOptions:focus-within{
+    display: block;
+} */
+
+.topbarProfileOptions{
+    position: absolute;
+    right: 35px;
+    top: 45px;
+    /* padding: 10px; */
+    width: 100px;
+    border-radius: 5px;
+    overflow: hidden;
+    z-index: 1000;
+}
+
+.optionLink{
+    display: inline-block;
+    width: 100px;
+    padding: 10px 0;
+    font-size: 14px;
+    text-align: center;
+    background-color: #fff;
+    color: #272727;
+    cursor: pointer;
+    border: 2px solid transparent;
+    border-radius: 5px;
+}
+
+.optionLink:hover{
+    background-color: #efefef;
+    border-color: #272727;
+}
+
+.topbarImg{
+    width: 100%;
+    height: 100%;
     border-radius: 50%;
     object-fit: cover;
-    cursor: pointer;
 }

@@ -94,7 +94,7 @@ router.get("/timeline/:userId", async (req, res) => {
       })
     );
 
-    console.log(userPost);
+    // console.log(userPost);
     return res.status(200).json(userPost.concat(...followingPost));
   } catch (err) {
     console.log(err);

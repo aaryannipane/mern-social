@@ -6,6 +6,7 @@ import { Register } from "./pages/register/Register";
 import { useContext } from "react";
 import { AuthContext } from "./context/AuthContext";
 import Messenger from "./pages/messenger/Messenger";
+import { Setting } from "./pages/setting/Setting";
 
 
 
@@ -32,6 +33,10 @@ function App() {
       path: "/profile/:username",
       element: <Profile />,
     },
+    {
+      path: "/setting",
+      element: user? <Setting/> : <Register/>
+    }
   ]);
   return <RouterProvider router={router} />;
 }

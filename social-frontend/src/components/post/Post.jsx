@@ -11,7 +11,7 @@ export const Post = ({ post }) => {
   const [isLiked, setIsLiked] = useState(false);
   const [user, setUser] = useState({});
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
-
+  
   const { user: currentUser } = useContext(AuthContext);
 
   useEffect(() => {
@@ -52,6 +52,7 @@ export const Post = ({ post }) => {
                 }
                 alt=""
                 className="postProfileImg"
+                lazyloading
               />
             </Link>
             <span className="postUsername">{user.username}</span>
@@ -63,7 +64,7 @@ export const Post = ({ post }) => {
         </div>
         <div className="postCenter">
           <span className="postText">{post?.desc}</span>
-          <img className="postImg" src={PF + post.image} alt="" onDoubleClick={likeHandler}/>
+          <img className="postImg" src={post.image.secure_url} alt="" onDoubleClick={likeHandler}/>
         </div>
         <div className="postBottom">
           <div className="postBottomLeft">
